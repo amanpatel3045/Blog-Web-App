@@ -93,8 +93,8 @@ Mongoose model is validating if this field exists and if it's the valid type. If
 
 # TO OVERCOME THIS 
 # _doc ka use kro
-# object destructuring me jo user likha hai uske bgl me _doc likh do
-# like this =>  const { password, ...others } = user_doc;
+# object destructuring me jo user likha hai uske bgl me ._doc likh do
+# like this =>  const { password, ...others } = user._doc;
 # now res k json me others likh do like this =>  res.status(200).json(others);
 
 # Whole code after correction
@@ -112,7 +112,7 @@ router.post("/login", async (req, res) => {
     if (!validated) {
       return res.status(400).json("Wrong credentials!");
     }
-    const { password, ...others } = user_doc;
+    const { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
     console.log("aman", err);
