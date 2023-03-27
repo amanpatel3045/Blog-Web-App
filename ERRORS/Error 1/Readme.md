@@ -120,3 +120,6 @@ router.post("/login", async (req, res) => {
   }
 });
 ```
+
+
+# SOLUTION LINK => https://stackoverflow.com/questions/18821212/mongoose-whats-up-with-doc
