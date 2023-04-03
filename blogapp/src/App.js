@@ -1,4 +1,5 @@
 import TopBar from "./components/topbar/TopBar";
+import About from "./pages/about/About";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
@@ -21,16 +22,22 @@ function App() {
         ></Route>
       </Routes>
       <Routes>
-        <Route path="/login" element={user?<Home/>:<Login />}></Route>
+        <Route path="/login" element={user ? <Home /> : <Login />}></Route>
       </Routes>
       <Routes>
-        <Route path="/write" element={user?<Write />:<Register/>}></Route>
+        <Route path="/write" element={user ? <Write /> : <Register />}></Route>
       </Routes>
       <Routes>
-        <Route path="/settings" element={user?<Settings />:<Register/>}></Route>
+        <Route
+          path="/settings"
+          element={user ? <Settings /> : <Register />}
+        ></Route>
       </Routes>
       <Routes>
         <Route path="/post/:postId" element={<Single />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/about" element={<About />}></Route>
       </Routes>
     </Router>
   );

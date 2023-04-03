@@ -1,0 +1,24 @@
+.about-container {
+  background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
+}
+.about-container {
+  max-width: 800px;
+  margin: 56px 250px;
+  padding: 20px;
+  background-color: #fff;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 20px;
+}
+
+.about-heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.about-paragraph {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}

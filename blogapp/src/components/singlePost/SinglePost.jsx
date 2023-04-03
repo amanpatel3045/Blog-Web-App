@@ -1,16 +1,30 @@
+import { useLocation } from "react-router-dom";
 import "./singlePost.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function SinglePost() {
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+  const [post, setPost] = useState({});
+
+  useEffect(() => {
+    const getPost = async () => {
+      const res = await axios.get("/posts/" +path);
+      setPost(res.data);
+    };
+    getPost();
+  }, [path]);
+
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        <img
-          src="https://render.fineartamerica.com/images/rendered/search/print/8/8/break/images/artworkimages/medium/1/watching-the-sun-christian-marcel.jpg"
-          alt=""
-          className="singlePostImg"
-        />
+        {post.photo && (
+          <img src={post.photo} alt="" className="singlePostImg" />
+        )}
+
         <h1 className="singlePostTitle">
-          Lorem ipsum dolor sit
+          {post.title}
           <div className="singlePostEdit">
             <i className="singlePostIcon fa-regular fa-pen-to-square"></i>
             <i className="singlePostIcon fa-regular fa-trash-can"></i>
@@ -18,29 +32,13 @@ export default function SinglePost() {
         </h1>
         <div className="singlePostInfo">
           <span className="singlePostAuthor">
-            Author:<b>Aman</b>
+            Author:<b>{post.username}</b>
           </span>
-          <span className="singlePostDate">1 hour ago</span>
+          <span className="singlePostDate">
+            {new Date(post.createdAt).toDateString()}
+          </span>
         </div>
-        <p className="singlePostDesc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, beatae
-          blanditiis ut repellendus quis veritatis illum, porro delectus
-          molestiae nobis nihil omnis facere quidem aut quibusdam pariatur
-          tenetur minus possimus. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Quas, beatae blanditiis ut repellendus quis
-          veritatis illum, porro delectus molestiae nobis nihil omnis facere
-          quidem aut quibusdam pariatur tenetur minus possimus. Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Quas, beatae blanditiis
-          ut repellendus quis veritatis illum, porro delectus molestiae nobis
-          nihil omnis facere quidem aut quibusdam pariatur tenetur minus
-          possimus. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Quas, beatae blanditiis ut repellendus quis veritatis illum, porro
-          delectus molestiae nobis nihil omnis facere quidem aut quibusdam
-          pariatur tenetur minus possimus. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Quas, beatae blanditiis ut repellendus
-          quis veritatis illum, porro delectus molestiae nobis nihil omnis
-          facere quidem aut quibusdam pariatur tenetur minus possimus.
-        </p>
+        <p className="singlePostDesc">{post.desc}</p>
       </div>
     </div>
   );

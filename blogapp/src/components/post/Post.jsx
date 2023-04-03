@@ -1,36 +1,27 @@
 import "./post.css";
-
-export default function post() {
+import { Link } from "react-router-dom";
+export default function post({ post }) {
   return (
     <div className="post">
-      <img
-        className="postImg"
-        src="https://render.fineartamerica.com/images/rendered/search/print/8/8/break/images/artworkimages/medium/1/watching-the-sun-christian-marcel.jpg"
-        alt=""
-      />
+      {post.photo && <img className="postImg" src={post.photo} alt="" />}
+
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">Music</span>
+          {post.categories.map((c) => (
+            <span className="postCat">{c.name}</span>
+          ))}
           <span className="postCat">Life</span>
         </div>
-        <span className="postTitle">Lorem, ipsum dolor sit amet</span>
+        <Link to={`/post/${post._id}`} className="link">
+          <span className="postTitle">{post.title}</span>
+        </Link>
+
         <hr />
-        <span className="postDate">1 hour ago</span>
+        <span className="postDate">
+          {new Date(post.createdAt).toDateString()}
+        </span>
       </div>
-      <p className="postDesc">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis nam
-        natus laborum veritatis architecto, animi aperiam non dolorum! Dolorum
-        nisi ratione magni veniam. Excepturi officiis repellendus, tempore eius
-        voluptatem recusandae.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis nam
-        natus laborum veritatis architecto, animi aperiam non dolorum! Dolorum
-        nisi ratione magni veniam. Excepturi officiis repellendus, tempore eius
-        voluptatem recusandae.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis nam
-        natus laborum veritatis architecto, animi aperiam non dolorum! Dolorum
-        nisi ratione magni veniam. Excepturi officiis repellendus, tempore eius
-        voluptatem recusandae.
-      </p>
+      <p className="postDesc">{post.desc}</p>
     </div>
   );
 }
