@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
@@ -10,13 +10,13 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 
-dotenv.config();
+// dotenv.config();
 app.use(express.json());
 app.use(cors());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect("mongodb+srv://amanpatel3045:amanpatel3045@cluster0.fv2kj7e.mongodb.net/blog?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     // useFindAndModify:true
