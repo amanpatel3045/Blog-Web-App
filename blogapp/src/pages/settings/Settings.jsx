@@ -11,14 +11,12 @@ export default function Settings() {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const { user,dispatch } = useContext(Context);
+  const { user, dispatch } = useContext(Context);
   //PF=> for public folder
-const PF = "http://localhost:5000/images/"
-
-
+  const PF = "https://amanapi.onrender.com/api/images/";
 
   const handleSubmit = async (e) => {
-    dispatch({type:"UPDATE_START"})
+    dispatch({ type: "UPDATE_START" });
     e.preventDefault();
     const updatedUser = {
       userId: user._id,
@@ -33,16 +31,19 @@ const PF = "http://localhost:5000/images/"
       data.append("file", file);
       updatedUser.profilePic = filename;
       try {
-        await axios.post("/upload", data);
+        await axios.post("https://amanapi.onrender.com/api/upload/", data);
       } catch (err) {}
     }
     try {
-     const res = await axios.put("/users/" + user._id, updatedUser);
+      const res = await axios.put(
+        "https://amanapi.onrender.com/api/users/" + user._id,
+        updatedUser
+      );
       setSuccess(true);
-      dispatch({type:"UPDATE_SUCCESS", payload:res.data})
+      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
       // window.location.replace("/");
     } catch (err) {
-       dispatch({type:"UPDATE_FAILURE"})
+      dispatch({ type: "UPDATE_FAILURE" });
     }
   };
   return (
@@ -56,7 +57,7 @@ const PF = "http://localhost:5000/images/"
           <label>Profile Picture</label>
           <div className="settingsPP">
             <img
-              src={file ? URL.createObjectURL(file) :PF+user.profilePic}
+              src={file ? URL.createObjectURL(file) : PF + user.profilePic}
               alt=""
             />
             <label htmlFor="fileInput">

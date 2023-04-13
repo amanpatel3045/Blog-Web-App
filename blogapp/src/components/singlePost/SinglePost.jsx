@@ -8,16 +8,21 @@ export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
-  const PF = "http://localhost:5000/images/";
+  const PF = "https://amanapi.onrender.com/images/";
   const { user } = useContext(Context);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+
   const [updateMode, setUpdateMode] = useState(false);
 
   useEffect(() => {
     const getPost = async () => {
-      const res = await axios.get("/posts/" + path);
+      const res = await axios.get(
+        "https://amanapi.onrender.com/api/posts/" + path
+      );
       setPost(res.data);
+
+      console.log(res.data.photo);
       setTitle(res.data.title);
       setDesc(res.data.desc);
     };
@@ -25,22 +30,25 @@ export default function SinglePost() {
   }, [path]);
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${post._id}`, {
-        data: { username: user.username },
-      });
+      await axios.delete(
+        `https://amanapi.onrender.com/api/posts/${post._id}`,
+        {
+          data: { username: user.username },
+        }
+      );
       window.location.replace("/");
     } catch (err) {}
   };
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`/posts/${post._id}`, {
+      await axios.put(`https://amanapi.onrender.com/api/posts/${post._id}`, {
         username: user.username,
         title,
         desc,
       });
       // window.location.reload();
-      setUpdateMode(false)
+      setUpdateMode(false);
     } catch (err) {}
   };
 

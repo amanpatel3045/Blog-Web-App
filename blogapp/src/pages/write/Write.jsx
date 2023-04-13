@@ -2,12 +2,19 @@ import { useContext, useState } from "react";
 import "./write.css";
 import axios from "axios";
 import { Context } from "../../context/Context";
+import { Navigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
+
+
+ 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -22,15 +29,23 @@ export default function Write() {
       data.append("file", file);
       newPost.photo = filename;
       try {
-        await axios.post("/upload", data);
-      } catch (err) {}
+        await axios.post("https://amanapi.onrender.com/api/upload/", data);
+      } catch (err) {
+        console.log(err);
+      }
     }
     try {
-      const res = await axios.post("/posts", newPost);
+      const res = await axios.post(
+        "https://amanapi.onrender.com/api/posts",
+        newPost
+      );
+      
       window.location.replace("/post/" + res.data._id);
       // window.location.replace("/");
     } catch (err) {}
   };
+
+
 
   return (
     <div className="write">
@@ -58,7 +73,7 @@ export default function Write() {
             placeholder="Title"
             className="writeInput"
             autoFocus={true}
-            onChange={(e)=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="writeFormGroup">
@@ -66,7 +81,7 @@ export default function Write() {
             placeholder="Tell your story..."
             type="text"
             className="writeInput writeText"
-            onChange={(e)=>setDesc(e.target.value)}
+            onChange={(e) => setDesc(e.target.value)}
           ></textarea>
         </div>
         <button className="writeSubmit" type="submit">

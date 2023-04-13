@@ -14,7 +14,7 @@ export default function Register() {
     let res;
     try {
     
-       res = await axios.post("/auth/register", {
+       res = await axios.post("https://amanapi.onrender.com/api/auth/register", {
         username,
         email,
         password,

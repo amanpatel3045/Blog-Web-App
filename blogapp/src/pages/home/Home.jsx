@@ -7,11 +7,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 export default function Home() {
   const [posts, setPosts] = useState([]);
-const {search} = useLocation();
+  const { search } = useLocation();
   // console.log(location);
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get("/posts" + search);
+      const res = await axios.get("https://amanapi.onrender.com/api/posts/" + search);
       // console.log(res);
       setPosts(res.data);
     };
