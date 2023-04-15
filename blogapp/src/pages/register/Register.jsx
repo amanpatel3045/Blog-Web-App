@@ -2,27 +2,60 @@ import { Link } from "react-router-dom";
 import "./register.css";
 import { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,setError]=useState(false);
+  const [error, setError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(false)
+    setError(false);
     let res;
     try {
-    
-       res = await axios.post("https://amanapi.onrender.com/api/auth/register", {
+      res = await axios.post("https://amanapi.onrender.com/api/auth/register", {
         username,
         email,
         password,
       });
+      if (res.data) {
+        RegSuccessnotify();
+      } else {
+        console.log("failed");
+      }
       res.data && window.location.replace("/login");
     } catch (err) {
-     setError(true)
+      setError(true);
+      RegFailnotify();
     }
+  };
+
+  const RegSuccessnotify = () => {
+    toast.success("🦄 Registered Successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const RegFailnotify = () => {
+    toast.error("Something went wrong!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
   return (
     <div className="register">
@@ -58,7 +91,12 @@ export default function Register() {
           Login
         </Link>
       </button>
-      {error && <span style={{color:"red", marginTop:"10px"}}>Something went wrong</span>}
+      {error && (
+        <span style={{ color: "red", marginTop: "10px" }}>
+          Something went wrong
+        </span>
+      )}
+      <ToastContainer />
     </div>
   );
 }

@@ -4,7 +4,7 @@ export default function post({ post }) {
   const PF = "https://amanapi.onrender.com/images/";
   return (
     <div className="post">
-      {post.photo && <img className="postImg" src={PF + post.photo} alt="" />}
+      {post.photo && <img className="postImg" src={post.photo} alt="" />}
 
       <div className="postInfo">
         <div className="postCats">

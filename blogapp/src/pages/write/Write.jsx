@@ -10,10 +10,8 @@ export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [suk, setSuk] = useState();
   const { user } = useContext(Context);
-
-
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,29 +21,53 @@ export default function Write() {
       desc,
     };
     if (file) {
+      // const data = new FormData();
+      // const filename = Date.now() + file.name;
+      // data.append("name", filename);
+      // data.append("file", file);
       const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
       data.append("file", file);
-      newPost.photo = filename;
-      try {
-        await axios.post("https://amanapi.onrender.com/api/upload/", data);
-      } catch (err) {
-        console.log(err);
-      }
+      data.append("upload_preset", "pj3tepnp");
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dxu7rwblb/image/upload",
+        data
+      );
+      setSuk(JSON.stringify(res));
+      console.log(res.data);
+      // fetch("https://api.cloudinary.com/v1_1/dxu7rwblb/image/upload", {
+      //   method: "post",
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then((res) => {
+      //     res.json();
+      //   })
+      //   .then((res) => {
+      //     console.log("SUN RHA HU MAI" + res);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+
+      newPost.photo = res.data.secure_url;
+      // try {
+      //   await axios.post("https://amanapi.onrender.com/api/upload/", data);
+      // } catch (err) {
+      //   console.log(err);
+      // }
     }
     try {
       const res = await axios.post(
         "https://amanapi.onrender.com/api/posts",
         newPost
       );
-      
+      console.log(res.data, "give some thing");
       window.location.replace("/post/" + res.data._id);
       // window.location.replace("/");
     } catch (err) {}
   };
-
-
 
   return (
     <div className="write">

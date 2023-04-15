@@ -3,6 +3,8 @@ import "./login.css";
 import { useContext, useRef } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const userRef = useRef();
@@ -17,10 +19,25 @@ export default function Login() {
         username: userRef.current.value,
         password: passwordRef.current.value,
       });
+     res.data && LoginSuccessnotify();
+     
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE" });
     }
+  };
+
+  const LoginSuccessnotify = () => {
+    toast.success("🦄 Registered Successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
   
   return (
@@ -50,6 +67,7 @@ export default function Login() {
           Register
         </Link>
       </button>
+      <ToastContainer />
     </div>
   );
 }
