@@ -3,6 +3,8 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Settings() {
   const [file, setFile] = useState(null);
@@ -43,15 +45,30 @@ export default function Settings() {
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
       // window.location.replace("/");
     } catch (err) {
+      UpdateErrornotify()
       dispatch({ type: "UPDATE_FAILURE" });
     }
   };
+
+  const UpdateErrornotify = () => {
+    toast.error("Something went wrong!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   return (
     <div className="settings">
       <div className="settingsWrapper">
         <div className="settingsTitle">
           <span className="settingsUpdateTitle">Update Your Account</span>
-          <span className="settingsDeleteTitle">Delete Your Account</span>
+          {/* <span className="settingsDeleteTitle">Delete Your Account</span> */}
         </div>
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
@@ -100,6 +117,7 @@ export default function Settings() {
         </form>
       </div>
       <Sidebar />
+      <ToastContainer />
     </div>
   );
 }

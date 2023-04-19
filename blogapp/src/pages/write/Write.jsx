@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import "./write.css";
 import axios from "axios";
 import { Context } from "../../context/Context";
-import { Navigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -63,10 +62,38 @@ export default function Write() {
         "https://amanapi.onrender.com/api/posts",
         newPost
       );
-      console.log(res.data, "give some thing");
+      WriteSuccessnotify();
       window.location.replace("/post/" + res.data._id);
       // window.location.replace("/");
-    } catch (err) {}
+    } catch (err) {
+      WriteErrornotify();
+    }
+  };
+
+  const WriteSuccessnotify = () => {
+    toast.success("Post Created Successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const WriteErrornotify = () => {
+    toast.error("Something went wrong!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   return (
@@ -110,6 +137,7 @@ export default function Write() {
           Publish
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

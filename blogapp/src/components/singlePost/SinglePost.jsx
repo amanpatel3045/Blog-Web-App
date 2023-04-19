@@ -3,6 +3,8 @@ import "./singlePost.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Context } from "../../context/Context";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SinglePost() {
   const location = useLocation();
@@ -30,14 +32,14 @@ export default function SinglePost() {
   }, [path]);
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `https://amanapi.onrender.com/api/posts/${post._id}`,
-        {
-          data: { username: user.username },
-        }
-      );
+      await axios.delete(`https://amanapi.onrender.com/api/posts/${post._id}`, {
+        data: { username: user.username },
+      });
+      DeleteSuccessnotify();
       window.location.replace("/");
-    } catch (err) {}
+    } catch (err) {
+      DeleteErrornotify()
+    }
   };
 
   const handleUpdate = async () => {
@@ -48,8 +50,63 @@ export default function SinglePost() {
         desc,
       });
       // window.location.reload();
+      UpdateSuccessnotify();
       setUpdateMode(false);
-    } catch (err) {}
+    } catch (err) {
+      UpdateErrornotify()
+    }
+  };
+
+  const DeleteSuccessnotify = () => {
+    toast.success("Post Deleted Successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const DeleteErrornotify = () => {
+    toast.error("Something went wrong!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const  UpdateSuccessnotify = () => {
+    toast.success("Post Updated Successfully", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const UpdateErrornotify = () => {
+    toast.error("Something went wrong!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   return (
@@ -109,6 +166,7 @@ export default function SinglePost() {
           </button>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

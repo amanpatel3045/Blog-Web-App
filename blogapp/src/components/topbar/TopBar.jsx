@@ -2,13 +2,29 @@ import { Link } from "react-router-dom";
 import "./TopBar.css";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function TopBar() {
   const { user, dispatch } = useContext(Context);
   const PF = "https://amanapi.onrender.com/images/"
 
 
   const handleLogout = () => {
+    LogoutSuccessnotify();
     dispatch({ type: "LOGOUT" });
+  };
+  const  LogoutSuccessnotify = () => {
+    toast.success("You have Successfully Logged Out ", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
   return (
     <div className="top">
@@ -71,6 +87,7 @@ export default function TopBar() {
 
         <i className="topSearchIcon fa-solid fa-magnifying-glass"></i>
       </div>
+      <ToastContainer />
     </div>
   );
 }
